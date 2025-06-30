@@ -129,12 +129,19 @@ groups/                   # グループ情報
 ### ローカル開発（Firebase Emulator）
 
 Firebase エミュレーターを使用した開発も可能です：
+[receipt_shareApp.swift](receipt-share/receipt_shareApp.swift)のコメントアウトされたコードを有効化することでfirebase emulatorを利用することが可能です。
 
 ```swift
 // receipt_shareApp.swift内のコメントアウトされたコードを有効化
+// Configure Firebase for local emulators
 Auth.auth().useEmulator(withHost: "localhost", port: 9099)
 Functions.functions().useEmulator(withHost: "localhost", port: 5001)
-// ...
+Storage.storage().useEmulator(withHost: "localhost", port: 9199)
+let settings = Firestore.firestore().settings
+settings.host = "localhost:8080"
+settings.cacheSettings = MemoryCacheSettings()
+settings.isSSLEnabled = false
+Firestore.firestore().settings = settings
 ```
 
 ### テスト実装
